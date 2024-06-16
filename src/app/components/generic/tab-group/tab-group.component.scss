@@ -1,0 +1,18 @@
+.active {
+    background: #004f4f;
+    border-bottom: inset;
+    border-bottom-color: aquamarine;
+}
+
+.tab-group {
+    position: relative;
+    top: 40px;
+    width: 99%;
+
+    mat-tab-nav-panel {
+        display: flex;
+        justify-content: center;
+        position: relative;
+        top: 25px;
+    }
+}

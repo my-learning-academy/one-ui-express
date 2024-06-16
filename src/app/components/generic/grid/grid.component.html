@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="container__actions">
+    <button mat-icon-button (click)="openDialog()">
+      <mat-icon>add_box</mat-icon>
+    </button>
+    <button mat-icon-button [disabled]="disable" (click)="openDialog(true)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button [disabled]="disable" (click)="deleteRecord()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <ag-grid-angular
+    [gridOptions]="gridOptions"
+    class="ag-theme-quartz"
+    style="width: 1000px; height: 500px"
+    [rowData]="rowData"
+    [columnDefs]="colDefs"
+    rowGroupPanelShow="always"
+    [pagination]="true"
+    (selectionChanged)="onRowSelectionChange($event)"
+    [rowSelection]="'single'"
+    (gridReady)="onGridReady($event)"
+  />
+</div>

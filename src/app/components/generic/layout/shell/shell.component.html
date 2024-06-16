@@ -1,0 +1,21 @@
+<mat-toolbar>
+  <span><mat-icon>star_rate</mat-icon>Auto parts inventory management</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button>
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <button mat-icon-button (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+<app-sidebar
+  [isExpanded]="sidebarExpanded"
+  (toggleSidebar)="sidebarExpanded = !sidebarExpanded"
+  [navItems]="[]"
+/>
+<div
+  class="main-wrapper"
+  [ngClass]="sidebarExpanded ? 'main-wrapper__sidebar-expanded' : ''"
+>
+  <router-outlet />
+</div>

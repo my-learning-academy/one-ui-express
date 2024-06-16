@@ -1,0 +1,13 @@
+<mat-form-field [formGroup]="colorFieldElement.formGroup" appearance="outline">
+  <input
+    matInput
+    [style.background]="defaultColor"
+    [style.textIndent]="'-999em'"
+    [cpOKButton]="true"
+    cpOKButtonClass="mat-mdc-raised-button"
+    [(colorPicker)]="defaultColor"
+    [cpPresetColors]="cpPresetColors"
+    (colorPickerChange)="onColorChange($event)"
+    readonly
+  />
+</mat-form-field>

@@ -1,0 +1,20 @@
+<mat-form-field
+  appearance="outline"
+  [formGroup]="dropDownElement.formGroup"
+  style="width: 100%"
+>
+  <mat-label>{{ dropDownElement.label }}</mat-label>
+  <mat-select
+    [formControlName]="dropDownElement.formControlName"
+    [required]="dropDownElement.isRequired ?? false"
+  >
+    @for (item of dropDownOptions; track item) {
+    <mat-option [value]="item.value">{{ item.label }}</mat-option>
+    }
+  </mat-select>
+  @if (dropDownElement.isRequired) {
+  <mat-error
+    >{{ dropDownElement.label }} is <strong>required</strong></mat-error
+  >
+  }
+</mat-form-field>

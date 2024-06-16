@@ -1,0 +1,18 @@
+<div class="sidebar" [ngClass]="{ expanded: isExpanded }">
+  <div class="sidebar__header">
+    <button mat-icon-button (click)="handleSidebarToggle()">
+      <mat-icon class="sidebar__header--toggle-icon">
+        {{ isExpanded ? "first_page" : "last_page" }}
+      </mat-icon>
+    </button>
+  </div>
+
+  @for (item of navItems; track $index) {
+  <div class="content" [routerLink]="item.link" [routerLinkActive]="'active'">
+    <div class="item">
+      <mat-icon class="item__nav-item-icon">{{ item.icon }}</mat-icon>
+      <div class="title">{{ item.label }}</div>
+    </div>
+  </div>
+  }
+</div>

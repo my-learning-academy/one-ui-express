@@ -1,0 +1,13 @@
+// -----------------------------------------------------------------------------------------------------
+// @ Generic Components themes
+// -----------------------------------------------------------------------------------------------------
+@import '../app/components/generic/delete-confirmation-dialog/delete-confirmation-dialog.theme.scss';
+
+
+/* Core Grid CSS */
+@import "ag-grid-community/styles/ag-grid.css";
+/* Quartz Theme Specific CSS */
+@import "ag-grid-community/styles/ag-theme-quartz.css";
+
+/* Global Spinner*/
+@import '../app/scss/app.spinner.scss';

@@ -1,0 +1,27 @@
+mat-toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    background: #00182F;
+    color: yellow;
+
+    mat-icon {
+        color: yellow;
+    }
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.main-wrapper {
+    margin-left: 100px;
+    height: auto;
+    transition: 0.3s;
+    position: relative;
+    top: 64px;
+
+    &__sidebar-expanded {
+        margin-left: 290px;
+    }
+}
