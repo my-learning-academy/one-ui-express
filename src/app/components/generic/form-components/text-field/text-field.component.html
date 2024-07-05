@@ -4,6 +4,17 @@
   style="width: 100%"
 >
   <mat-label>{{ textFieldElement.label }}</mat-label>
+  @if (textFieldElement.enableTextarea) {
+  <textarea
+    matInput
+    [formControlName]="textFieldElement.formControlName"
+    cdkTextareaAutosize
+    cdkAutosizeMinRows="1"
+    [placeholder]="textFieldElement.placeholder ?? ''"
+    [required]="isRequired()"
+    cdkAutosizeMaxRows="5"
+  ></textarea>
+  } @else {
   <input
     [formControlName]="textFieldElement.formControlName"
     matInput
@@ -11,7 +22,7 @@
     [required]="isRequired()"
     [type]="textFieldElement.type ?? 'text'"
   />
-  @if (isRequired()) {
+  } @if (isRequired()) {
   <mat-error
     >{{ textFieldElement.label }} is <strong>required</strong></mat-error
   >

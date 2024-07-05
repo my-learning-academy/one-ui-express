@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   ColDef,
@@ -17,6 +17,8 @@ import { EMPTY, switchMap, take } from 'rxjs';
 import { DeleteConfirmationDialogComponent } from '../delete-confirmation-dialog/delete-confirmation-dialog.component';
 import { ResponseDto } from '@app/dtos/response.dto';
 import { FormDialogDataModel } from '@app/models/form-dialog-data.model';
+import { ExtraOption } from '@app/models/extra-options.model';
+import { EntityBaseService } from '@app/services/entity-base.service';
 
 @Component({
   selector: 'app-grid',
@@ -25,12 +27,12 @@ import { FormDialogDataModel } from '@app/models/form-dialog-data.model';
   templateUrl: './grid.component.html',
   styleUrl: './grid.component.scss',
 })
-export class GridComponent<T> {
+export class GridComponent<T> implements OnInit {
   @Input() rowData: any;
   @Input({ required: true }) colDefs!: ColDef[];
-  @Input() deleteRecordFn!: Function;
   @Input() dialogComponent!: ComponentType<any>;
   @Input({ required: true }) gridOptions!: GridOptions<T>;
+  @Input({ required: true }) extraOptions!: ExtraOption;
 
   disable = true;
   gridApi!: GridApi<T>;
@@ -39,12 +41,17 @@ export class GridComponent<T> {
 
   constructor(
     private notificationService: NotificationService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private entityBaseService: EntityBaseService
   ) {}
+
+  ngOnInit(): void {
+    this.subscribeToEntityData();
+  }
 
   onRowSelectionChange(event: SelectionChangedEvent<T>): void {
     this.currentSelectedNode = event.api.getSelectedNodes()[0]?.data;
-    this.disable = !!!this.currentSelectedNode;
+    this.disable = !this.currentSelectedNode;
   }
 
   openDialog(edit?: boolean): void {
@@ -72,10 +79,13 @@ export class GridComponent<T> {
         take(1),
         switchMap((isDeleteConfirmed: boolean) => {
           if (isDeleteConfirmed) {
-            return this.deleteRecordFn({
-              ...this.currentSelectedNode,
-              sys_Deactivated: true,
-            });
+            return this.entityBaseService.saveEntityData(
+              {
+                ...this.currentSelectedNode,
+                sys_Deactivated: true,
+              },
+              this.extraOptions.entityDataAccessEndpoint
+            );
           }
           return EMPTY;
         })
@@ -83,6 +93,28 @@ export class GridComponent<T> {
       .subscribe({
         next: (result: any) => this.handleDeleteRecord(result),
         error: (err: HttpErrorResponse) => this.handleDeleteError(err),
+      });
+  }
+
+  private subscribeToEntityData(): void {
+    if (!this.extraOptions.entityDataAccessEndpoint) {
+      this.rowData = [];
+      return;
+    }
+    this.entityBaseService
+      .getEntityData<T>(this.extraOptions.entityDataAccessEndpoint)
+      .pipe(take(1))
+      .subscribe({
+        next: (result: ResponseDto<T[]>) => {
+          if (result.succeeded) {
+            this.rowData = result.data;
+            return;
+          }
+          this.notificationService.openSnackBar();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.notificationService.openSnackBar();
+        },
       });
   }
 

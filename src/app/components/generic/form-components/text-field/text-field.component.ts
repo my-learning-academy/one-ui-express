@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { FormField } from '@app/models/form-components/form-field.model';
+import { TextField } from '@app/models/form-components/form-field.model';
 
 @Component({
   selector: 'app-text-field',
@@ -10,7 +10,7 @@ import { FormField } from '@app/models/form-components/form-field.model';
   templateUrl: './text-field.component.html',
 })
 export class TextFieldComponent {
-  @Input({ required: true }) textFieldElement!: FormField<UntypedFormGroup>;
+  @Input({ required: true }) textFieldElement!: TextField<UntypedFormGroup>;
 
   minLength!: number;
 
